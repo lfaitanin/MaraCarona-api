@@ -153,3 +153,5 @@ C:\Users\Luiz Faitanin\source\repos\Mara-Carona\Mara-Carona\bin\Debug\netcoreapp
 C:\Users\Luiz Faitanin\source\repos\Mara-Carona\Mara-Carona\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Luiz Faitanin\source\repos\Mara-Carona\Mara-Carona\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Luiz Faitanin\source\repos\Mara-Carona\Mara-Carona\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Luiz Faitanin\source\repos\Mara-Carona\Mara-Carona\obj\Debug\netcoreapp3.1\Mara-Carona.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Luiz Faitanin\source\repos\Mara-Carona\Mara-Carona\obj\Debug\netcoreapp3.1\Mara-Carona.MvcApplicationPartsAssemblyInfo.cache

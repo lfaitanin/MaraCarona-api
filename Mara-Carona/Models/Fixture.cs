@@ -7,10 +7,11 @@ namespace Mara_Carona.Models
 {
     public class Fixture
     {
-        public int MyProperty { get; set; }
-        public int MyProperty { get; set; }
-        public int MyProperty { get; set; }
-        public int MyProperty { get; set; }
-        public int MyProperty { get; set; }
+        public int id { get; set; }
+        public int teamhomeid { get; set; }
+        public int teamawayid { get; set; }
+        public string location { get; set; }
+        public int competitionid { get; set; }
+        public DateTime date { get; set; }
     }
 }

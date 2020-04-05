@@ -28,14 +28,14 @@ namespace Mara_Carona.Controllers
         {
             return _context.users.Include(club => club.Club)
                                   .Include(userType => userType.UserType)
-                                  .ToList();        
+                                  .ToList();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user =  await _context.users.FindAsync(id);
+            var user = await _context.users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -43,27 +43,36 @@ namespace Mara_Carona.Controllers
             var userTipo = await _context.usersType.FindAsync(user.UserTypeId);
             var club = await _context.club.FindAsync(user.clubId);
 
-              return CreatedAtAction("GetUser", new { id = user.Id, club = club.id, userType = userTipo.type }, user);
+            return CreatedAtAction("GetUser", new { id = user.Id, club = club.id, userType = userTipo.type }, user);
 
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetNextGame(int id)
+        [HttpGet("/matchDay/{id}")]
+        public IActionResult GetNextGame(int id)
         {
-            var user = await _context.users.FindAsync(id);
+
+            var user = _context.users.Find(id);
             if (user == null)
             {
-                return NotFound();
+                return BadRequest();
             }
-            var nextMatch = await _context.club.FindAsync(user.clubId);
+            var nextMatches = _context.fixture.Where(match => match.teamhomeid == user.clubId || match.teamawayid == user.clubId).ToList();
+            var currentDate = DateTime.Today;
+            Dictionary<int, double> busca = new Dictionary<int, double>();
+            nextMatches.ForEach(m => busca.Add(m.id, (m.date - currentDate).TotalDays));
+            busca.OrderBy(b => b.Value);
 
-            return CreatedAtAction("GetUser", new { id = user.Id, club = club.id, userType = userTipo.type }, user);
-
+            var nextMatchId = busca.FirstOrDefault(x => x.Value > 0).Key;
+            var nextMatch = nextMatches.FirstOrDefault(x => x.id == nextMatchId);
+            
+            if (nextMatch == null)
+            {
+                return BadRequest();
+            }
+            return Ok(nextMatch);
         }
-        // PUT: api/Users/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
