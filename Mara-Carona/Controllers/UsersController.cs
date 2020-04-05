@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Mara_Carona.Context;
 using Mara_Carona.Models;
 using Microsoft.AspNetCore.Cors;
+using Mara_Carona.Data;
+using Mara_Carona.BLL;
 
 namespace Mara_Carona.Controllers
 {
@@ -15,56 +17,48 @@ namespace Mara_Carona.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly Context.AppContext _context;
+        private readonly IUserBLL _userBLL;
 
-        public UsersController(Context.AppContext context)
+        public UsersController(IUserBLL userBLL)
         {
-            _context = context;
+            _userBLL = userBLL;
+            
         }
 
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Getusers()
         {
-            return _context.users.Include(club => club.Club)
-                                  .Include(userType => userType.UserType)
-                                  .ToList();
+            return await _userBLL.Getusers();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.users.FindAsync(id);
+            var user = await _userBLL.GetUser(id);
             if (user == null)
             {
                 return NotFound();
             }
-            var userTipo = await _context.usersType.FindAsync(user.UserTypeId);
-            var club = await _context.club.FindAsync(user.clubId);
+           var userTipo = await _userBLL.GetTypeUser(user.Value);
+           var club = await _userBLL.GetClub(user.Value);
 
-            return CreatedAtAction("GetUser", new { id = user.Id, club = club.id, userType = userTipo.type }, user);
+            return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.Value.id, userType = userTipo.Value.type }, user);
 
         }
 
         // GET: api/Users/5
         [HttpGet("/matchDay/{id}")]
-        public IActionResult GetNextGame(int id)
+        public async Task<IActionResult> GetNextGameAsync(int id)
         {
 
-            var user = _context.users.Find(id);
+            var user = await _userBLL.GetUser(id);
             if (user == null)
             {
                 return BadRequest();
             }
-            var nextMatches = _context.fixture.Where(match => match.teamhomeid == user.clubId || match.teamawayid == user.clubId).ToList();
-            var currentDate = DateTime.Today;
-            Dictionary<int, double> busca = new Dictionary<int, double>();
-            nextMatches.ForEach(m => busca.Add(m.id, (m.date - currentDate).TotalDays));
-            busca.OrderBy(b => b.Value);
-
-            var nextMatchId = busca.FirstOrDefault(x => x.Value > 0).Key;
-            var nextMatch = nextMatches.FirstOrDefault(x => x.id == nextMatchId);
+            var nextMatch = _userBLL.GetNextGame(user.Value);
             
             if (nextMatch == null)
             {
@@ -73,48 +67,26 @@ namespace Mara_Carona.Controllers
             return Ok(nextMatch);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
 
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _userBLL.createUser(user);
+                return  CreatedAtAction("GetUser", new { id = user.Id }, user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);           
+            }
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+           
         }
 
         private bool UserExists(int id)
         {
-            return _context.users.Any(e => e.Id == id);
+            return _userBLL.UserExists(id);
         }
     }
 }
