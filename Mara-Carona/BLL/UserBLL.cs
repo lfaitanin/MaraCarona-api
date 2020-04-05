@@ -19,32 +19,31 @@ namespace Mara_Carona.BLL
 
         public async void createUser(User user)
         {
-            var userCreated = await _context.users.AddAsync(user);
+            await _context.users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ActionResult<IEnumerable<User>>> Getusers()
+        public async Task<IEnumerable<User>> Getusers()
         {
             return _context.users.Include(club => club.Club)
                                   .Include(userType => userType.UserType)
                                   .ToList();
         }
+
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await _context.users.FindAsync(id);
             return user;
         }
         
-        public async Task<ActionResult<UserType>> GetTypeUser(User user)
+        public async Task<UserType> GetTypeUser(User user)
         {
-            var typeUser = await _context.usersType.FindAsync(user.UserTypeId);
-            return typeUser;
+            return await _context.usersType.FindAsync(user.UserTypeId);
         }
         
-        public async Task<ActionResult<Club>> GetClub(User user)
+        public async Task<Club> GetClub(User user)
         {
-            var club = await _context.club.FindAsync(user.clubId);
-            return club;
+            return await _context.club.FindAsync(user.clubId);
         }
         public Fixture GetNextGame(User user)
         {

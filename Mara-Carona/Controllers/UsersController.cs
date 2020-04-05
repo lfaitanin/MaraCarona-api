@@ -22,14 +22,13 @@ namespace Mara_Carona.Controllers
         public UsersController(IUserBLL userBLL)
         {
             _userBLL = userBLL;
-            
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Getusers()
+        public async Task<IEnumerable<User>> Getusers()
         {
-            return await _userBLL.Getusers();
+            return  await _userBLL.Getusers();
         }
 
         // GET: api/Users/5
@@ -44,7 +43,7 @@ namespace Mara_Carona.Controllers
            var userTipo = await _userBLL.GetTypeUser(user.Value);
            var club = await _userBLL.GetClub(user.Value);
 
-            return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.Value.id, userType = userTipo.Value.type }, user);
+            return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.id, userType = userTipo.type }, user);
 
         }
 

@@ -36,7 +36,7 @@ namespace Mara_Carona
                    "User Id=odwvjyxqhzgabw;Password=ef7d9e8b0476a76423666b960558df83f905c75c2ca3e2321b7b52d96f9a63b9;Database=d85ko4e25vi0j6;SSL Mode=Require;Trust Server Certificate=true"));
 
             services.AddTransient<IUserBLL, UserBLL>();
-
+            services.AddTransient<IClubBLL, ClubBLL>();
 
             services.AddSwaggerGen(c =>
             {

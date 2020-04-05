@@ -10,10 +10,10 @@ namespace Mara_Carona.BLL
      public interface IUserBLL 
      {
         void createUser(User user);
-        Task<ActionResult<IEnumerable<User>>> Getusers();
+        Task<IEnumerable<User>> Getusers();
         Task<ActionResult<User>> GetUser(int id);
-        Task<ActionResult<UserType>> GetTypeUser(User id);
-        Task<ActionResult<Club>> GetClub(User id);
+        Task<UserType> GetTypeUser(User user);
+        Task<Club> GetClub(User user);
         Fixture GetNextGame(User user);
         bool UserExists(int id);
      }
