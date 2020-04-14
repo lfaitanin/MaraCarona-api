@@ -14,7 +14,7 @@ namespace Mara_Carona.BLL
         Task<ActionResult<User>> GetUser(int id);
         Task<UserType> GetTypeUser(User user);
         Task<Club> GetClub(User user);
-        Fixture GetNextGame(User user);
+        object GetNextGame(User user);
         bool UserExists(int id);
      }
 }

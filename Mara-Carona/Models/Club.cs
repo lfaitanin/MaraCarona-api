@@ -7,7 +7,7 @@ namespace Mara_Carona.Models
 {
     public class Club
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string name { get; set; }
     }
 }
