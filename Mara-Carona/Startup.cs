@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mara_Carona.BLL;
+using Mara_Carona.HubContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,8 @@ namespace Mara_Carona
 
             services.AddTransient<IUserBLL, UserBLL>();
             services.AddTransient<IClubBLL, ClubBLL>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSignalR();
 
             services.AddSwaggerGen(c =>
             {
@@ -48,10 +52,9 @@ namespace Mara_Carona
                 });
             });
             services.AddControllers();
-            services.AddSignalR();
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod().WithOrigins("http://localhost:3000").AllowCredentials();
             }));
         }
 
@@ -59,13 +62,10 @@ namespace Mara_Carona
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
-
 
             app.UseHttpsRedirection();
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -77,14 +77,13 @@ namespace Mara_Carona
 
             app.UseAuthorization();
 
+            app.UseHttpsRedirection();
+            app.UseWebSockets();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("chat");
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

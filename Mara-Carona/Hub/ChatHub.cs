@@ -6,7 +6,7 @@ namespace Mara_Carona.HubContext
     {
         public void Send(string name, string message)
         {
-            Clients.All.InvokeAsync("send", name, message);
+            Clients.All.SendAsync("send", name, message);
         }
     }
 }

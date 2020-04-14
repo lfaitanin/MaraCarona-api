@@ -43,7 +43,7 @@ namespace Mara_Carona.Controllers
            var userTipo = await _userBLL.GetTypeUser(user.Value);
            var club = await _userBLL.GetClub(user.Value);
 
-            return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.id, userType = userTipo.type }, user);
+            return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.Id, userType = userTipo.type }, user);
 
         }
 
