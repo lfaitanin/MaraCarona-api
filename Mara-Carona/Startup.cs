@@ -48,7 +48,7 @@ namespace Mara_Carona
                 });
             });
             services.AddControllers();
-
+            services.AddSignalR();
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
@@ -80,6 +80,11 @@ namespace Mara_Carona
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("chat");
             });
         }
     }
