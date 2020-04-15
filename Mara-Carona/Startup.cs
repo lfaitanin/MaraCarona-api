@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mara_Carona.BLL;
 using Mara_Carona.HubContext;
+using Mara_Carona.Interfaces.BLL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,7 @@ namespace Mara_Carona
 
             services.AddTransient<IUserBLL, UserBLL>();
             services.AddTransient<IClubBLL, ClubBLL>();
+            services.AddTransient<IChatBLL, ChatBLL>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSignalR();
 
@@ -63,8 +65,6 @@ namespace Mara_Carona
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-
-            app.UseHttpsRedirection();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

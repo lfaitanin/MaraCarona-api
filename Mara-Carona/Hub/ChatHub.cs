@@ -1,12 +1,21 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Mara_Carona.Interfaces.BLL;
+using Mara_Carona.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Mara_Carona.HubContext
 {
     public class ChatHub : Hub
     {
-        public void Send(string name, string message)
+        private readonly IChatBLL _chatBL;
+        public ChatHub(IChatBLL chatBL)
         {
-            Clients.All.SendAsync("send", name, message);
+            _chatBL = chatBL;
+        }
+
+        public void Send(User userFrom, User userTo, string text)
+        {
+            _chatBL.SaveMessage(userFrom, userTo, text);
+            Clients.All.SendAsync("send", userFrom, userTo, text);
         }
     }
 }
