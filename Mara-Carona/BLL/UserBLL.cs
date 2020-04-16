@@ -18,10 +18,16 @@ namespace Mara_Carona.BLL
             _context = context;
         }
 
-        public async void createUser(User user)
+        public void createUser(User user)
         {
-            await _context.users.AddAsync(user);
-            await _context.SaveChangesAsync();
+             _context.users.Add(user);
+             _context.SaveChanges();
+        }
+
+        public void updateUser(User user)
+        {
+            _context.users.Update(user);
+            _context.SaveChanges();
         }
 
         public async Task<IEnumerable<User>> Getusers()
@@ -36,7 +42,11 @@ namespace Mara_Carona.BLL
             var user = await _context.users.FindAsync(id);
             return user;
         }
-
+        public User GetUserByEmail(string email)
+        {
+            var user = _context.users.Where(user => user.email == email).First();
+            return user;
+        }
         public async Task<UserType> GetTypeUser(User user)
         {
             return await _context.usersType.FindAsync(user.UserTypeId);

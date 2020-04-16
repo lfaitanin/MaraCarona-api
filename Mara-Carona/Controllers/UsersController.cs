@@ -73,14 +73,13 @@ namespace Mara_Carona.Controllers
             try
             {
                 _userBLL.createUser(user);
+
                 return  CreatedAtAction("GetUser", new { id = user.Id }, user);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);           
             }
-
-           
         }
 
         private bool UserExists(int id)
