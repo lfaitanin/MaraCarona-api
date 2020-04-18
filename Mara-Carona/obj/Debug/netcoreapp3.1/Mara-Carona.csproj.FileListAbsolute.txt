@@ -478,3 +478,10 @@ C:\Users\Luiz Faitanin\Documents\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp
 C:\Users\Luiz Faitanin\Documents\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Luiz Faitanin\Documents\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Luiz Faitanin\Documents\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Projetos\MaraCarona-api\Mara-Carona\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

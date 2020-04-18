@@ -18,5 +18,6 @@ namespace Mara_Carona.BLL
         object GetNextGame(User user);
         bool UserExists(int id);
         User GetUserByEmail(string email);
+        User GetUserByToken(string token);
     }
 }

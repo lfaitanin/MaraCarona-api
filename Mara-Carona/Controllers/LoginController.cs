@@ -31,11 +31,12 @@ namespace Mara_Carona.Controllers
         {
             IActionResult response = Unauthorized();
             var user = AuthenticateUser(login);
+            var tokenString = string.Empty;
 
             if (user != null)
             {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
+                tokenString = GenerateJSONWebToken(user);
+                response = Ok(new { Token = tokenString, Id = user.Id, Name = user.username, Email = user.email });
             }
 
             return response;

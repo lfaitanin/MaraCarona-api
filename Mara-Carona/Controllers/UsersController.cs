@@ -28,7 +28,7 @@ namespace Mara_Carona.Controllers
         [HttpGet]
         public async Task<IEnumerable<User>> Getusers()
         {
-            return  await _userBLL.Getusers();
+            return await _userBLL.Getusers();
         }
 
         // GET: api/Users/5
@@ -40,11 +40,23 @@ namespace Mara_Carona.Controllers
             {
                 return NotFound();
             }
-           var userTipo = await _userBLL.GetTypeUser(user.Value);
-           var club = await _userBLL.GetClub(user.Value);
+            var userTipo = await _userBLL.GetTypeUser(user.Value);
+            var club = await _userBLL.GetClub(user.Value);
 
             return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.Id, userType = userTipo.type }, user);
 
+        }
+
+        [HttpGet("{token}")]
+        public ActionResult<User> GetUserByToken(string token)
+        {
+            var user = _userBLL.GetUserByToken(token);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { Token = user.Token, Id = user.Id, Name = user.username, Email = user.email });
         }
 
         // GET: api/Users/5
@@ -58,7 +70,7 @@ namespace Mara_Carona.Controllers
                 return BadRequest();
             }
             var nextMatch = _userBLL.GetNextGame(user.Value);
-            
+
             if (nextMatch == null)
             {
                 return BadRequest();
@@ -74,11 +86,11 @@ namespace Mara_Carona.Controllers
             {
                 _userBLL.createUser(user);
 
-                return  CreatedAtAction("GetUser", new { id = user.Id }, user);
+                return CreatedAtAction("GetUser", new { id = user.Id }, user);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);           
+                return BadRequest(ex);
             }
         }
 

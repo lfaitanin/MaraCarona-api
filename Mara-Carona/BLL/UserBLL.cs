@@ -84,7 +84,7 @@ namespace Mara_Carona.BLL
             };
             return values;
         }
-        public List<User> getCarona(User user)
+        public List<User> GetCarona(User user)
         {
             var usuariosTorcedores = _context.users.Where(match => user.UserTypeId != match.UserTypeId && user.clubId == match.clubId).ToList();
             return usuariosTorcedores;
@@ -92,6 +92,11 @@ namespace Mara_Carona.BLL
         public bool UserExists(int id)
         {
             return _context.users.Any(e => e.Id == id);
+        }
+
+        public User GetUserByToken(string token)
+        {
+            return _context.users.FirstOrDefault(user => user.Token == token);
         }
 
     }
