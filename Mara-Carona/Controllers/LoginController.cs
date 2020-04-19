@@ -36,7 +36,7 @@ namespace Mara_Carona.Controllers
             if (user != null)
             {
                 tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { Token = tokenString, Id = user.Id, Name = user.username, Email = user.email });
+                response = Ok(new { Token = tokenString, Id = user.Id, Name = user.username, Email = user.email});
             }
 
             return response;
@@ -56,10 +56,13 @@ namespace Mara_Carona.Controllers
             return userInfo.Token;
         }
 
-        private User AuthenticateUser(UserDTO login)
+        private dynamic AuthenticateUser(UserDTO login)
         {
           var user = _userBLL.GetUserByEmail(login.Email);
-
+            if (user == null)
+            {
+                return null;
+            }
             if (user.password == login.Password)
             {
                 return user;

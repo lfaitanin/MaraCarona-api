@@ -49,6 +49,8 @@ namespace Mara_Carona
             services.AddTransient<IUserBLL, UserBLL>();
             services.AddTransient<IClubBLL, ClubBLL>();
             services.AddTransient<IChatBLL, ChatBLL>();
+            services.AddTransient<IMatchBLL, MatchBLL>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSignalR();
 

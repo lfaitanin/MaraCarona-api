@@ -14,6 +14,7 @@ namespace Mara_Carona.Context
         public DbSet<User> users { get; set; }
         public DbSet<UserType> usersType { get; set; }
         public DbSet<Fixture> fixture { get; set; }
+        public DbSet<Match> Match { get; set; }
 
     }
 }

@@ -33,7 +33,7 @@ namespace Mara_Carona.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(string id)
         {
             var user = await _userBLL.GetUser(id);
             if (user == null)
@@ -60,11 +60,11 @@ namespace Mara_Carona.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("/matchDay/{id}")]
-        public async Task<IActionResult> GetNextGameAsync(int id)
+        [HttpGet("/matchDay/{token}")]
+        public async Task<IActionResult> GetNextGameAsync(string token)
         {
 
-            var user = await _userBLL.GetUser(id);
+            var user = await _userBLL.GetUser(token);
             if (user == null)
             {
                 return BadRequest();
@@ -84,6 +84,8 @@ namespace Mara_Carona.Controllers
         {
             try
             {
+                UserType type = new UserType();
+                user.UserType = type;               
                 _userBLL.createUser(user);
 
                 return CreatedAtAction("GetUser", new { id = user.Id }, user);

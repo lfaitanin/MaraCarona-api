@@ -37,15 +37,24 @@ namespace Mara_Carona.BLL
                                   .ToList();
         }
 
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(string token)
         {
-            var user = await _context.users.FindAsync(id);
-            return user;
+            var user = await _context.users.Where(u => u.Token == token).FirstAsync();
+            if(user != null)
+            {
+                return user;
+            }
+            return null;
         }
         public User GetUserByEmail(string email)
         {
-            var user = _context.users.Where(user => user.email == email).First();
-            return user;
+         
+            var user = _context.users.Where(user => user.email == email).FirstOrDefault();
+            if (user != null)
+            {
+                return user;
+            }
+            return null;
         }
         public async Task<UserType> GetTypeUser(User user)
         {
@@ -61,11 +70,11 @@ namespace Mara_Carona.BLL
             var nextMatches = _context.fixture.Include(club => club.Club).Where(match => match.teamhomeid == user.clubId || match.teamawayid == user.clubId).ToList();
             var currentDate = DateTime.Today;
             Dictionary<int, double> busca = new Dictionary<int, double>();
-            nextMatches.ForEach(m => busca.Add(m.Id, (m.date - currentDate).TotalDays));
+            nextMatches.ForEach(m => busca.Add(m.id, (m.date - currentDate).TotalDays));
             busca.OrderBy(b => b.Value);
 
             var nextMatchId = busca.FirstOrDefault(x => x.Value > 0).Key;
-            var nextMatch = nextMatches.FirstOrDefault(x => x.Id == nextMatchId);
+            var nextMatch = nextMatches.FirstOrDefault(x => x.id == nextMatchId);
             var homeTeam = _context.club.FirstOrDefault(club => club.Id == nextMatch.teamhomeid);
             var awayTeam = _context.club.FirstOrDefault(club => club.Id == nextMatch.teamawayid);
             string[] result = {
