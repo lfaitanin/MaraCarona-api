@@ -11,9 +11,9 @@ namespace Mara_Carona.BLL
 {
     public class UserBLL : IUserBLL
     {
-        private readonly Context.AppContext _context;
+        private readonly Context.AppContextMaracarona _context;
 
-        public UserBLL(Context.AppContext context)
+        public UserBLL(Context.AppContextMaracarona context)
         {
             _context = context;
         }

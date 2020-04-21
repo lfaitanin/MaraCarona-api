@@ -9,9 +9,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Mara_Carona.Migrations
 {
-    [DbContext(typeof(Context.AppContext))]
-    [Migration("20200415011108_Message")]
-    partial class Message
+    [DbContext(typeof(AppContextMaracarona))]
+    [Migration("20200421051945_initialmig")]
+    partial class initialmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,12 +38,12 @@ namespace Mara_Carona.Migrations
 
             modelBuilder.Entity("Mara_Carona.Models.Fixture", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("clubId")
+                    b.Property<int?>("clubId")
                         .HasColumnType("integer");
 
                     b.Property<int>("competitionid")
@@ -51,6 +51,9 @@ namespace Mara_Carona.Migrations
 
                     b.Property<DateTime>("date")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("fixtureround")
+                        .HasColumnType("integer");
 
                     b.Property<string>("location")
                         .HasColumnType("text");
@@ -61,7 +64,7 @@ namespace Mara_Carona.Migrations
                     b.Property<int>("teamhomeid")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("clubId");
 
@@ -93,12 +96,79 @@ namespace Mara_Carona.Migrations
                     b.ToTable("Message");
                 });
 
+            modelBuilder.Entity("Mara_Carona.Models.Ride", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<int>("FixtureId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RideDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FixtureId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ride");
+                });
+
+            modelBuilder.Entity("Mara_Carona.Models.RideUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("DriverId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PassengerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RideId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("PassengerId");
+
+                    b.HasIndex("RideId");
+
+                    b.ToTable("RideUser");
+                });
+
             modelBuilder.Entity("Mara_Carona.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
 
                     b.Property<int>("UserTypeId")
                         .HasColumnType("integer");
@@ -146,9 +216,7 @@ namespace Mara_Carona.Migrations
                 {
                     b.HasOne("Mara_Carona.Models.Club", "Club")
                         .WithMany()
-                        .HasForeignKey("clubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("clubId");
                 });
 
             modelBuilder.Entity("Mara_Carona.Models.Hub.Message", b =>
@@ -160,6 +228,42 @@ namespace Mara_Carona.Migrations
                     b.HasOne("Mara_Carona.Models.User", "UserTo")
                         .WithMany()
                         .HasForeignKey("UserToId");
+                });
+
+            modelBuilder.Entity("Mara_Carona.Models.Ride", b =>
+                {
+                    b.HasOne("Mara_Carona.Models.Fixture", "Fixture")
+                        .WithMany()
+                        .HasForeignKey("FixtureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mara_Carona.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Mara_Carona.Models.RideUser", b =>
+                {
+                    b.HasOne("Mara_Carona.Models.User", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mara_Carona.Models.User", "Passenger")
+                        .WithMany()
+                        .HasForeignKey("PassengerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mara_Carona.Models.Ride", "Ride")
+                        .WithMany("Passengers")
+                        .HasForeignKey("RideId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Mara_Carona.Models.User", b =>

@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mara_Carona.Models
 {
-    public class Match
+    public class Ride
     {
         public int Id { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-        public UserType UserType { get; set; }
-        public int UserTypeId { get; set; }
         public Fixture Fixture { get; set; }
         public int FixtureId { get; set; }
+        public int Capacity { get; set; }
+        public string City { get; set; }
+        public string Neighborhood { get; set; }
+        public DateTime RideDate { get; set; }
+        public List<RideUser> Passengers { get; set; }
     }
 }

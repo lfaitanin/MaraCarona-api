@@ -4,9 +4,9 @@ using Mara_Carona.Models.Hub;
 
 namespace Mara_Carona.Context
 {
-    public class AppContext : DbContext
+    public class AppContextMaracarona : DbContext
     {
-        public AppContext(DbContextOptions<AppContext> options)
+        public AppContextMaracarona(DbContextOptions<AppContextMaracarona> options)
         : base(options)
         { }
         public DbSet<Message> Message { get; set; }
@@ -14,7 +14,8 @@ namespace Mara_Carona.Context
         public DbSet<User> users { get; set; }
         public DbSet<UserType> usersType { get; set; }
         public DbSet<Fixture> fixture { get; set; }
-        public DbSet<Match> Match { get; set; }
+        public DbSet<Ride> Ride { get; set; }
+        public DbSet<RideUser> RideUser { get; set; }
 
     }
 }

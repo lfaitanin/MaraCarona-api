@@ -47,7 +47,7 @@ namespace Mara_Carona.Controllers
 
         }
 
-        [HttpGet("{token}")]
+        [HttpGet("GetUserByToken/{token}")]
         public ActionResult<User> GetUserByToken(string token)
         {
             var user = _userBLL.GetUserByToken(token);
@@ -57,6 +57,18 @@ namespace Mara_Carona.Controllers
             }
 
             return Ok(new { Token = user.Token, Id = user.Id, Name = user.username, Email = user.email });
+        }
+
+        [HttpGet("ValidateToken/{token}")]
+        public IActionResult ValidateToken(string token)
+        {
+            var user = _userBLL.GetUserByToken(token);
+            if (user == null)
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
         }
 
         // GET: api/Users/5

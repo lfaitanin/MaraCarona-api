@@ -9,8 +9,8 @@ namespace Mara_Carona.BLL
 {
     public class ChatBLL : IChatBLL
     {
-        private readonly Context.AppContext _context;
-        public ChatBLL(Context.AppContext context)
+        private readonly Context.AppContextMaracarona _context;
+        public ChatBLL(Context.AppContextMaracarona context)
         {
             _context = context;
         }

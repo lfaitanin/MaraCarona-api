@@ -10,9 +10,9 @@ namespace Mara_Carona.BLL
 {
     public class ClubBLL : IClubBLL
     {
-        private readonly Context.AppContext _context;
+        private readonly Context.AppContextMaracarona _context;
 
-        public ClubBLL(Context.AppContext context)
+        public ClubBLL(Context.AppContextMaracarona context)
         {
             _context = context;
         }
