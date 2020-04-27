@@ -12,7 +12,7 @@ namespace Mara_Carona.BLL
         void createUser(User user);
         void updateUser(User user);
         Task<IEnumerable<User>> Getusers();
-        Task<ActionResult<User>> GetUser(string token);
+        User GetUser(string token);
         Task<UserType> GetTypeUser(User user);
         Task<Club> GetClub(User user);
         object GetNextGame(User user);

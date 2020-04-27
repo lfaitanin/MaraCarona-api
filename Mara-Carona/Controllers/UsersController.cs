@@ -33,17 +33,17 @@ namespace Mara_Carona.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(string id)
+        public IActionResult GetUser(string id)
         {
-            var user = await _userBLL.GetUser(id);
+            var user = _userBLL.GetUser(id);
             if (user == null)
             {
                 return NotFound();
             }
-            var userTipo = await _userBLL.GetTypeUser(user.Value);
-            var club = await _userBLL.GetClub(user.Value);
+            var userTipo = _userBLL.GetTypeUser(user);
+            var club = _userBLL.GetClub(user);
 
-            return CreatedAtAction("GetUser", new { id = user.Value.Id, club = club.Id, userType = userTipo.type }, user);
+            return CreatedAtAction("GetUser", new { id = user.Id, club = club.Id, userType = userTipo }, user);
 
         }
 
@@ -73,15 +73,15 @@ namespace Mara_Carona.Controllers
 
         // GET: api/Users/5
         [HttpGet("/matchDay/{token}")]
-        public async Task<IActionResult> GetNextGameAsync(string token)
+        public IActionResult GetNextGameAsync(string token)
         {
 
-            var user = await _userBLL.GetUser(token);
+            var user = _userBLL.GetUser(token);
             if (user == null)
             {
                 return BadRequest();
             }
-            var nextMatch = _userBLL.GetNextGame(user.Value);
+            var nextMatch = _userBLL.GetNextGame(user);
 
             if (nextMatch == null)
             {

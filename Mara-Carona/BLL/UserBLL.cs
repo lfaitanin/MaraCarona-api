@@ -37,12 +37,12 @@ namespace Mara_Carona.BLL
                                   .ToList();
         }
 
-        public async Task<ActionResult<User>> GetUser(string token)
+        public User GetUser(string token)
         {
-            var user = await _context.users.Where(u => u.Token == token).FirstAsync();
+            var user = _context.users.Where(u => u.Token == token);
             if(user != null)
             {
-                return user;
+                return user.FirstOrDefault();
             }
             return null;
         }
@@ -56,6 +56,7 @@ namespace Mara_Carona.BLL
             }
             return null;
         }
+
         public async Task<UserType> GetTypeUser(User user)
         {
             return await _context.usersType.FindAsync(user.UserTypeId);
